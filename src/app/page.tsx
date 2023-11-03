@@ -1,16 +1,11 @@
-import ProductCard from "@/components/ProductCard";
 import { prisma } from "@/lib/db/prisma";
-import Image from "next/image";
+import { Product } from "@prisma/client";
+import { HomePage } from "@/components/Homepage";
 
 export default async function Home() {
-  const products = await prisma.product.findMany({
+  const products: Product[] = await prisma.product.findMany({
     orderBy: { id: "desc" },
   });
-  return (
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {products.map((product) => (
-        <ProductCard product={product} />
-      ))}
-    </section>
-  );
+
+  return <HomePage products={products} />;
 }
