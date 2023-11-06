@@ -5,7 +5,6 @@ import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import PriceTag from "./PriceTag";
-import Modal from "./Modal";
 
 interface ProductCardProps {
   product: Product;

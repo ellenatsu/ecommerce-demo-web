@@ -37,13 +37,21 @@ export const HomePage = ({ products }: HomeProps) => {
   }, [isModalOpen]);
 
   return (
-    <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-      {products.map((product) => (
-        <ProductCard product={product} onOpenModal={handleOpenModal} />
-      ))}
-      {isModalOpen && (
-        <Modal product={selectedProduct} onClose={() => setModalOpen(false)} />
-      )}
-    </section>
+    <>
+      <div className="h-[300px] w-full bg-pink-300">
+        image carousal placeholder
+      </div>
+      <div className="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {products.map((product) => (
+          <ProductCard product={product} onOpenModal={handleOpenModal} />
+        ))}
+        {isModalOpen && (
+          <Modal
+            product={selectedProduct}
+            onClose={() => setModalOpen(false)}
+          />
+        )}
+      </div>
+    </>
   );
 };
