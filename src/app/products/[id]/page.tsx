@@ -2,6 +2,8 @@ import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import PriceTag from "@/components/PriceTag";
+import { Metadata } from "next";
+import { cache } from "react";
 
 interface ProductPageProps {
   params: {
@@ -9,8 +11,27 @@ interface ProductPageProps {
   };
 }
 
-const ProductPage = async ({ params: { id } }: ProductPageProps) => {
+const getProduct = cache(async (id: string) => {
   const product = await prisma.product.findUnique({ where: { id } });
+  if (!product) notFound();
+  return product;
+});
+
+export async function generateMetadata({
+  params: { id },
+}: ProductPageProps): Promise<Metadata> {
+  const product = await getProduct(id);
+  return {
+    title: product.name + " - Tao Tao",
+    description: product.description,
+    openGraph: {
+      images: [{ url: product.imageUrl }],
+    },
+  };
+}
+
+const ProductPage = async ({ params: { id } }: ProductPageProps) => {
+  const product = await getProduct(id);
   if (!product) notFound();
 
   return (

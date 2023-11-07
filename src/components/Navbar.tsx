@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <nav className="rounded border-gray-200 bg-white px-2 py-2.5 dark:bg-gray-900 sm:px-4">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
-        <Link href="./" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <span className="self-center whitespace-nowrap text-lg font-semibold dark:text-white">
             TaoTao Shop
           </span>
@@ -57,10 +57,10 @@ const Navbar = () => {
         </div>
 
         <div className="align-center flex w-auto justify-center">
-          <Link href="./" className="mr-10 block gap-4 rounded">
+          <Link href="/" className="mr-10 block gap-4 rounded">
             <IconLike />
           </Link>
-          <Link href="./" className="block gap-4 rounded">
+          <Link href="/" className="block gap-4 rounded">
             <IconCart />
           </Link>
         </div>
