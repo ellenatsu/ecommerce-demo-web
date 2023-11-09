@@ -1,18 +1,23 @@
-"use client";
-import React, { useState } from "react";
 import Link from "next/link";
 import { categoryItems } from "@/assets/data/data";
-import { IconCart, IconLike, IconMenu, IconSearch } from "./svgCollection";
+import { IconLike, IconMenu, IconSearch } from "./svgCollection";
+import { redirect } from "next/navigation";
+import { CartButton } from "./CartButton";
+import { getCart } from "@/lib/db/cart";
 
-const Navbar = () => {
-  const [query, setQuery] = useState("");
+async function searchProducts(formData: FormData) {
+  "use server";
 
-  const handleKeyDown = (e: { key: string }) => {
-    if (e.key === "Enter") {
-      // Perform your search action here
-      console.log("Searching for:", query);
-    }
-  };
+  const searchQuery = formData.get("searchQuery")?.toString();
+
+  if (searchQuery) {
+    redirect("/search?query=" + searchQuery);
+  }
+}
+
+const Navbar = async () => {
+  const cart = await getCart();
+
   return (
     <nav className="rounded border-gray-200 bg-white px-2 py-2.5 dark:bg-gray-900 sm:px-4">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
@@ -44,33 +49,32 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <div className="flex w-[50%] items-center rounded-lg bg-gray-100 p-2 shadow-md">
-          <IconSearch />
-          <input
-            type="text"
-            className="w-full bg-gray-100 outline-none"
-            placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
+        <div className="flex-none gap-2">
+          <form action={searchProducts}>
+            <div className="relative flex items-center">
+              <IconSearch />
+              <input
+                name="searchQuery"
+                placeholder="Search"
+                className="input-bordered input w-full min-w-[100px] rounded-lg bg-gray-100 py-2 pl-10 pr-3 shadow-md"
+              />
+            </div>
+          </form>
         </div>
+
+        <button
+          type="button"
+          className="ml-3 rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0"
+        >
+          Sign In
+        </button>
 
         <div className="align-center flex w-auto justify-center">
           <Link href="/" className="mr-10 block gap-4 rounded">
             <IconLike />
           </Link>
-          <Link href="/" className="block gap-4 rounded">
-            <IconCart />
-          </Link>
+          <CartButton cart={cart} />
         </div>
-
-        <button
-          type="button"
-          className="mr-3 rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 md:mr-0"
-        >
-          Sign In
-        </button>
       </div>
     </nav>
   );

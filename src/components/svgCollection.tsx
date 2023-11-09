@@ -38,10 +38,12 @@ export const IconSearch: any = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="mr-2 h-5 w-5 text-gray-500"
+      className="absolute left-2"
       viewBox="0 0 20 20"
       fill="currentColor"
       aria-hidden="true"
+      height="1.5em"
+      width="1.5em"
     >
       <path
         fillRule="evenodd"
