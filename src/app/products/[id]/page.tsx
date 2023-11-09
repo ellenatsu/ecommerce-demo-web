@@ -52,6 +52,18 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           <h1 className="text-5xl font-bold">{product.name}</h1>
           <PriceTag price={product.price} className="mt-4" />
           <p className="py-6">{product.description}</p>
+
+          <div className="join-vertical join mb-3 lg:join-horizontal">
+            <button className="join-item btn">-</button>
+            <div>
+              <input
+                className="input-bordered input join-item"
+                placeholder="Quantity"
+              />
+            </div>
+            <button className="join-item btn">+</button>
+          </div>
+
           <AddToCartButton
             productId={product.id}
             incrementProductQuantity={incrementProductQuantity}

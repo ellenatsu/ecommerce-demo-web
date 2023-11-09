@@ -4,7 +4,10 @@ import { createCart, getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function incrementProductQuantity(productId: string) {
+export async function incrementProductQuantity(
+  productId: string,
+  quantity: number
+) {
   //get cart and items
   const cart = (await getCart()) ?? (await createCart());
   const itemInCart = cart.items.find((item) => item.productId === productId);
