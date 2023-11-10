@@ -5,7 +5,7 @@ import PriceTag from "@/components/PriceTag";
 import { Metadata } from "next";
 import { cache } from "react";
 import { AddToCartButton } from "./AddToCartButton";
-import { incrementProductQuantity } from "./actions";
+import { updateProductQuantity } from "./actions";
 
 interface ProductPageProps {
   params: {
@@ -53,20 +53,9 @@ const ProductPage = async ({ params: { id } }: ProductPageProps) => {
           <PriceTag price={product.price} className="mt-4" />
           <p className="py-6">{product.description}</p>
 
-          <div className="join-vertical join mb-3 lg:join-horizontal">
-            <button className="join-item btn">-</button>
-            <div>
-              <input
-                className="input-bordered input join-item"
-                placeholder="Quantity"
-              />
-            </div>
-            <button className="join-item btn">+</button>
-          </div>
-
           <AddToCartButton
             productId={product.id}
-            incrementProductQuantity={incrementProductQuantity}
+            updateProductQuantity={updateProductQuantity}
           />
         </div>
       </div>

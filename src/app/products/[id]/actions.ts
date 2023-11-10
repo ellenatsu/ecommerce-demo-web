@@ -4,22 +4,27 @@ import { createCart, getCart } from "@/lib/db/cart";
 import { prisma } from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function incrementProductQuantity(
+//in cart page, can direct edit quantity
+export async function updateProductQuantity(
   productId: string,
-  quantity: number
+  quantity: number, //must bigger than 0 judge from outside
+  method: string
 ) {
-  //get cart and items
   const cart = (await getCart()) ?? (await createCart());
   const itemInCart = cart.items.find((item) => item.productId === productId);
+  var newQuantity = quantity;
 
-  //update cart
   if (itemInCart) {
+    if (method === "add") {
+      newQuantity = itemInCart.quantity + quantity;
+    } else if (method === "edit") {
+    }
     await prisma.cartItem.update({
       where: {
         id: itemInCart.id,
       },
       data: {
-        quantity: itemInCart.quantity + 1,
+        quantity: newQuantity,
       },
     });
   } else {
@@ -27,10 +32,28 @@ export async function incrementProductQuantity(
       data: {
         cartId: cart.id,
         productId,
-        quantity: 1,
+        quantity: newQuantity,
       },
     });
   }
+  if (method === "edit") {
+    revalidatePath("/cart");
+  } else if (method === "add") {
+    revalidatePath("/products/[id]");
+  }
+}
 
-  revalidatePath("/products/[id]");
+//for remove from cart
+export async function removeProduct(productId: string) {
+  const cart = (await getCart()) ?? (await createCart());
+  const itemInCart = cart.items.find((item) => item.productId === productId);
+
+  if (itemInCart) {
+    await prisma.cartItem.delete({
+      where: {
+        id: itemInCart.id,
+      },
+    });
+  }
+  revalidatePath("/cart");
 }

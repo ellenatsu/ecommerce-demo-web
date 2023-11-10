@@ -2,18 +2,20 @@
 
 import { QuantitySelector } from "@/components/QuantitySelector";
 import { useState, useTransition } from "react";
+import { updateProductQuantity } from "./actions";
 
 interface AddToCartButtonProps {
   productId: string;
-  incrementProductQuantity: (
+  updateProductQuantity: (
     productId: string,
-    quantity: number
+    quantity: number,
+    method: string
   ) => Promise<void>;
 }
 
 export const AddToCartButton = ({
   productId,
-  incrementProductQuantity,
+  updateProductQuantity,
 }: AddToCartButtonProps) => {
   const [isPending, startTransition] = useTransition();
   const [success, setSuccess] = useState(false);
@@ -33,7 +35,7 @@ export const AddToCartButton = ({
           onClick={() => {
             setSuccess(false);
             startTransition(async () => {
-              await incrementProductQuantity(productId, quantity);
+              await updateProductQuantity(productId, quantity, "add");
               setSuccess(true);
             });
           }}

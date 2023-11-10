@@ -30,7 +30,7 @@ const HeroSlider = () => {
         </div>
       </div>
 
-      <div className="flex w-full justify-center gap-2 py-2">
+      {/* <div className="flex w-full justify-center gap-2 py-2">
         <a href="#item1" className="btn-xs btn">
           1
         </a>
@@ -43,7 +43,7 @@ const HeroSlider = () => {
         <a href="#item4" className="btn-xs btn">
           4
         </a>
-      </div>
+      </div> */}
     </>
   );
 };
